@@ -1,3 +1,4 @@
+
 package Bai3_61134327;
 
 import java.awt.EventQueue;
@@ -15,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.ListSelectionModel;
@@ -37,6 +40,7 @@ public class MainGUI extends JFrame {
 	private JTextField txtTen;
 	private JTextField txtDiem;
 	private JTextField txtNamSinh;
+	List<SinhVien> list;
 	JScrollPane scrollPane_1;
 	JLabel lblMaSV;
 	JLabel lblHo;
@@ -72,7 +76,7 @@ public class MainGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public MainGUI() {
-			
+		list = new ArrayList<SinhVien>();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 812, 480);
 		contentPane = new JPanel();
@@ -307,8 +311,15 @@ public class MainGUI extends JFrame {
 					}
 				}
 				if(isExist == true) {
-					JOptionPane.showMessageDialog(MainGUI.this, "Mã sinh viên: " + Ma + "\nHọ và tên: " + ho + " " + ten + "\nNăm sinh: " + namsinh + "\nĐiểm: " + diem , "Kết quả tìm kiếm: ", JOptionPane.INFORMATION_MESSAGE);
+					data.setRowCount(0);
+					Vector rowx = new Vector<>();
+					rowx.add(Ma);
+					rowx.add(ho);
+					rowx.add(ten);
+					rowx.add(namsinh);
+					rowx.add(diem);
 
+					data.addRow(rowx);
 				}
 				else {
 					lblstt.setText("Không tồn tại");
@@ -369,8 +380,18 @@ public class MainGUI extends JFrame {
 		btnShow = new JButton("Hiển thị lại toàn bộ danh sách");
 		btnShow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setDefaulValue();
-				reset();
+				data.setRowCount(0);
+				list.forEach(item -> {
+					Vector rowx = new Vector<>();
+					rowx.add(item.getMaSV());
+					rowx.add(item.getHo());
+					rowx.add(item.getTen());
+					rowx.add(item.getNamSinh());
+					rowx.add(item.getDiem());
+
+					data.addRow(rowx);
+				});
+				table.updateUI();
 			}
 		});
 		btnShow.setBounds(459, 136, 209, 32);
@@ -408,6 +429,7 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);	
+		list.add(new SinhVien("SV001","Nguyễn Văn","Thạch",LocalDate.of(2000,01,06),10.0));
 		//sv2
 		hangX = new Vector<>();
 		p = new SinhVien("SV002","Lệ Thị","Hồng",LocalDate.of(2000,05,06),8.5);
@@ -417,6 +439,7 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);
+		list.add(new SinhVien("SV002","Lệ Thị","Hồng",LocalDate.of(2000,05,06),8.5));
 		//sv3
 		hangX = new Vector<>();
 		p = new SinhVien("SV003","Cao Thái","Sơn",LocalDate.of(2000,12,30),7.4);
@@ -426,6 +449,7 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);	
+		list.add(new SinhVien("SV003","Cao Thái","Sơn",LocalDate.of(2000,12,30),7.4));
 		//sv4
 		hangX = new Vector<>();
 		p = new SinhVien("SV004","Hà Huy","Tập",LocalDate.of(2000,11,20),4.6);
@@ -435,6 +459,7 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);		
+		list.add(new SinhVien("SV004","Hà Huy","Tập",LocalDate.of(2000,11,20),4.6));
 		//sv5
 		hangX = new Vector<>();
 		p = new SinhVien("SV005","Nguyễn Thị","Hiền",LocalDate.of(2001,04,05),9.5);
@@ -444,6 +469,8 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);	
+		list.add(new SinhVien("SV005","Nguyễn Thị","Hiền",LocalDate.of(2001,04,05),9.5));
+
 		//sv6
 		hangX = new Vector<>();
 		p = new SinhVien("SV006","Trần Thì","Diễm",LocalDate.of(2001,06,06),4.5);
@@ -453,6 +480,8 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);	
+		list.add(new SinhVien("SV006","Trần Thì","Diễm",LocalDate.of(2001,06,06),4.5));
+
 		//sv7
 		hangX = new Vector<>();
 		p = new SinhVien("SV007","Lý Thùy","Trang",LocalDate.of(2001,10,23),7.5);
@@ -462,6 +491,8 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);
+		list.add(new SinhVien("SV007","Lý Thùy","Trang",LocalDate.of(2001,10,23),7.5));
+
 		//sv8
 		hangX = new Vector<>();
 		p = new SinhVien("SV008","Cao Hải","Duy",LocalDate.of(2002,01,31),5.5);
@@ -471,6 +502,8 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);
+		list.add(new SinhVien("SV008","Cao Hải","Duy",LocalDate.of(2002,01,31),5.5));
+
 		//sv9
 		hangX = new Vector<>();
 		p = new SinhVien("SV009","Lê Thị","Vân",LocalDate.of(2002,03,06),8.1);
@@ -480,6 +513,8 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);
+		list.add(new SinhVien("SV009","Lê Thị","Vân",LocalDate.of(2002,03,06),8.1));
+
 		//sv10
 		hangX = new Vector<>();
 		p = new SinhVien("SV010","Nguyễn Văn","Hùng",LocalDate.of(2002,04,23),6.7);
@@ -489,8 +524,10 @@ public class MainGUI extends JFrame {
 		hangX.add(p.getNamSinh());
 		hangX.add(p.getDiem());
 		data.addRow(hangX);
-			
+		list.add(new SinhVien("SV010","Nguyễn Văn","Hùng",LocalDate.of(2002,04,23),6.7));
+
 		
 		table.setModel(data);
 	}
 }
+
